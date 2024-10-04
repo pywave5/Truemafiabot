@@ -33,5 +33,6 @@ class MafiaManager:
         return f"Игровое время - {self._time}"
 
     def set_time(self) -> str:
-        self._time = 1 if self._time[0] else None
-        return f"Время суток установлено на - {self._time}"
+        current_time = 0 if self._time[0] else 1
+        new_time = (current_time + 1) % 2
+        return f"Время суток установлено на - {self._time[new_time]}"
