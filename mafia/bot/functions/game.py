@@ -1,6 +1,6 @@
 class MafiaManager:
     def __init__(self,
-                 players: list,
+                 players: dict,
                  time: str):
         self._players = players
         self._time = time
@@ -11,8 +11,13 @@ class MafiaManager:
     def end_game(self) -> None:
         return self._players.clear()
 
-    def append_player(self, user_id: int) -> None:
-        return self._players.append(user_id)
+    def append_player(self, user_id: int, role: str) -> None:
+        self._players[user_id] = {"is_alive": True, "role": role}
 
     def remove_player(self, user_id: int) -> None:
-        return self._players.pop(user_id)
+        self._players.pop(user_id, None)
+
+    def kill_player(self, user_id: int) -> str:
+        if user_id in self._players:
+            self._players[user_id]["is_alive"] = False
+            return f"{user_id} - был убит."
