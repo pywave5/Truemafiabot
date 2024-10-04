@@ -3,8 +3,11 @@ class MafiaManager:
         self._players = players
         self._time: dict = {0: "Ночь", 1: "День"}
 
-    def start_game(self):
-        return len(self._players) > 4
+    def start_game(self) -> str:
+        if len(self._players) > 4:
+            return f"Игра начинается..."
+        else:
+            return f"<b>Игра не может начаться если игроков меньше 4</b>"
 
     def end_game(self):
         return self._players.clear()
