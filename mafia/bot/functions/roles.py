@@ -1,5 +1,3 @@
-import random
-
 class Role:
     def __init__(self,
                  name: str,
