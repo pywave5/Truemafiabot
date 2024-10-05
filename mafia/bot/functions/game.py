@@ -1,5 +1,5 @@
 class MafiaManager:
-    def __init__(self, players: dict):
+    def __init__(self, players: list[dict]):
         self._players = players
         self._time: dict = {0: "Ночь", 1: "День"}
 
