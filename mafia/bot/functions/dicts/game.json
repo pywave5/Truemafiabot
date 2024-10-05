@@ -6,5 +6,6 @@
     "player_revived": "{user_id} - возродился!",
     "and_so_alive": "{user_id} еще не умер :)",
     "game_time": "Игровое время - {time}",
-    "set_time": "Время суток установлено на - {time}"
+    "set_time": "Время суток установлено на - {time}",
+    "role_not_found": "Роль не найдена!"
 }

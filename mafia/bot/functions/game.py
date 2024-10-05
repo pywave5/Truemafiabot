@@ -2,8 +2,8 @@ import json
 from pathlib import Path
 
 class MafiaManager:
-    def __init__(self, players: list[dict]):
-        self._players = players
+    def __init__(self, players: list[dict] = None):
+        self._players = players if players is not None else []
         self._time: dict = {0: "Ночь", 1: "День"}
 
         file_path = Path(__file__).parent / "dicts" / "game.json"
@@ -21,7 +21,7 @@ class MafiaManager:
         return self._players.clear()
 
     def append_player(self, user_id: int, role: str) -> None:
-        self._players[user_id] = {"is_alive": True, "role": role}
+        self._players.append({"user_id": user_id, "is_alive": True, "role": role})
 
     def remove_player(self, user_id: int) -> None:
         self._players.pop(user_id)
@@ -48,3 +48,9 @@ class MafiaManager:
         current_time = 0 if self._time[0] else 1
         new_time = (current_time + 1) % 2
         return self.data["set_time"].format(time=self._time[new_time])
+
+    def get_player_role(self, user_id: int) -> str:
+        for player in self._players:
+            if player["user_id"] == user_id:
+                return player["role"]
+        return self.data["role_not_found"]

@@ -8,7 +8,7 @@ from mafia.bot.filters.current_chat import CurrentChat
 from mafia.bot.functions.game import MafiaManager
 
 user = Router()
-mafia = MafiaManager(players=[{}])
+mafia = MafiaManager()
 
 @user.message(CommandStart())
 async def cmd_start(message: Message) -> None:
