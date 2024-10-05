@@ -1,0 +1,10 @@
+{
+    "start_game": "Игра начинается...",
+    "not_enough_players": "<b>Игра не может начаться если игроков меньше 4</b>",
+    "player_killed": "{user_id} - был убит.",
+    "and_so_dead": "{user_id} и так мертв.",
+    "player_revived": "{user_id} - возродился!",
+    "and_so_alive": "{user_id} еще не умер :)",
+    "game_time": "Игровое время - {time}",
+    "set_time": "Время суток установлено на - {time}"
+}
