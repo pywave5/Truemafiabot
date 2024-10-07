@@ -9,7 +9,7 @@ class MafiaManager:
         self._players = players if players is not None else []
         self._time: str = "Ночь"
 
-        file_path = Path(__file__).parent / "dicts" / "game.json"
+        file_path = Path(__file__).parent / "data" / "game.json"
         with open(file_path, "r", encoding="UTF-8") as file:
             self.data = json.load(file)
 
