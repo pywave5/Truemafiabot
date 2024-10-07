@@ -1,13 +1,8 @@
 import json
 import random
 from pathlib import Path
-from dataclasses import dataclass
 
-@dataclass
-class Player:
-    user_id: int
-    role: str = "Unknown"
-    is_alive: bool = True
+from player import Player
 
 class MafiaManager:
     def __init__(self, players: list[Player] = None):
