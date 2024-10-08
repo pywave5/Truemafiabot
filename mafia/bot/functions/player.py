@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-from roles import Role
+from mafia.bot.functions.roles import Role
 
 @dataclass
 class Player:
     user_id: int
-    role: Role
+    role: Role = None
     is_alive: bool = True

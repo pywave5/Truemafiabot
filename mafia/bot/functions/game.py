@@ -2,7 +2,9 @@ import json
 import random
 from pathlib import Path
 
-from player import Player
+from mafia.bot.functions.player import Player
+from mafia.bot.functions.roles import Role
+
 
 class MafiaManager:
     def __init__(self, players: list[Player] = None):
@@ -13,8 +15,15 @@ class MafiaManager:
         with open(file_path, "r", encoding="UTF-8") as file:
             self.data = json.load(file)
 
+        self.roles = self.load_roles()
+
+    def load_roles(self):
+        file_path = Path(__file__).parent / "data" / "role.json"
+        with open(file_path, "r", encoding="UTF-8") as file:
+            return json.load(file)
+
     def start_game(self) -> str:
-        if len(self._players) > 4:
+        if len(self._players) >= 4:
             self.__set_user_roles()
             return self.data["start_game"]
         else:
@@ -53,10 +62,22 @@ class MafiaManager:
     def get_player_role(self, user_id: int) -> str:
         for player in self._players:
             if player.user_id == user_id:
-                return player.role
-        return self.data["role_not_found"]
+                return player.role.name
 
     def __set_user_roles(self) -> None:
+        role_data = list(self.roles.values())
         for player in self._players:
-            random_role = random.choice(self.data["roles"])
-            player.role = random_role
+            random_role_data = random.choice(role_data)
+            player.role = Role(
+                name=random_role_data["name"],
+                alignment=random_role_data["alignment"],
+                info=random_role_data["info"],
+                has_night_action=random_role_data["has_night_action"],
+                has_day_action=random_role_data["has_day_action"],
+                number_of_targets=random_role_data["number_of_targets"],
+                priority=random_role_data["priority"],
+                sends_mafia_kill=random_role_data["sends_mafia_kill"],
+                can_self_target=random_role_data["can_self_target"],
+                shots=random_role_data["shots"],
+                max_count=random_role_data["max_count"],
+            )

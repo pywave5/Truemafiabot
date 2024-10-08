@@ -1,0 +1,54 @@
+{
+  "mafia": {
+    "name": "Мафия",
+    "alignment": "Мафия",
+    "info": "Член мафии, работает с другими для устранения мирных жителей.",
+    "has_night_action": true,
+    "has_day_action": false,
+    "number_of_targets": 1,
+    "priority": 2,
+    "sends_mafia_kill": true,
+    "can_self_target": false,
+    "shots": 0,
+    "max_count": 3
+  },
+  "doctor": {
+    "name": "Доктор",
+    "alignment": "Мирный житель",
+    "info": "Мирный житель, который может защищать других от убийства.",
+    "has_night_action": true,
+    "has_day_action": false,
+    "number_of_targets": 1,
+    "priority": 1,
+    "sends_mafia_kill": false,
+    "can_self_target": true,
+    "shots": 0,
+    "max_count": 1
+  },
+  "cop": {
+    "name": "Комиссар",
+    "alignment": "Мирный житель",
+    "info": "Мирный житель, который может проверять принадлежность других.",
+    "has_night_action": true,
+    "has_day_action": false,
+    "number_of_targets": 1,
+    "priority": 1,
+    "sends_mafia_kill": false,
+    "can_self_target": false,
+    "shots": 0,
+    "max_count": 1
+  },
+  "serial_killer": {
+    "name": "Маньяк",
+    "alignment": "Нейтральный",
+    "info": "Одинокий убийца, который должен уничтожить всех остальных, чтобы победить.",
+    "has_night_action": true,
+    "has_day_action": false,
+    "number_of_targets": 1,
+    "priority": 3,
+    "sends_mafia_kill": false,
+    "can_self_target": false,
+    "shots": 1,
+    "max_count": 1
+  }
+}
