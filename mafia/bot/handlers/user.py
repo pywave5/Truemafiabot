@@ -24,8 +24,11 @@ async def cmd_game(message: Message) -> None:
     await message.answer(f"{mafia.start_game()}",
                          parse_mode=ParseMode.HTML)
 
+    user_role = mafia.get_player_role(message.from_user.id)
+
     await message.bot.send_message(
         chat_id=message.from_user.id,
-        text=f"Ваша роль - <b>{mafia.get_player_role(message.from_user.id)}</b>",
+        text=f"Ваша роль - <b>{user_role['role']}</b>\n"
+             f"<blockquote>{user_role['info']}</blockquote>",
         parse_mode=ParseMode.HTML
     )

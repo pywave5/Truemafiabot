@@ -59,10 +59,13 @@ class MafiaManager:
         self._time = "День" if self._time == "Ночь" else "Ночь"
         return self.data["set_time"].format(time=self._time)
 
-    def get_player_role(self, user_id: int) -> str:
+    def get_player_role(self, user_id: int) -> dict:
         for player in self._players:
             if player.user_id == user_id:
-                return player.role.name
+                return {
+                    "role": player.role.name,
+                    "info": player.role.info
+                }
 
     def __set_user_roles(self) -> None:
         role_data = list(self.roles.values())
