@@ -32,8 +32,8 @@ class MafiaManager:
     def end_game(self):
         self._players.clear()
 
-    def append_player(self, user_id: int) -> None:
-        self._players.append(Player(user_id=user_id))
+    def append_player(self, user_id: int, name: str) -> None:
+        self._players.append(Player(user_id=user_id, name=name))
 
     def remove_player(self, user_id: int) -> None:
         self._players = [p for p in self._players if p.user_id != user_id]
@@ -84,3 +84,9 @@ class MafiaManager:
                 shots=random_role_data["shots"],
                 max_count=random_role_data["max_count"],
             )
+
+    def get_all_players(self) -> str:
+        result = []
+        for idx, player in enumerate(self._players, start=1):
+            result.append(f"{idx}. {player.name}")
+        return "\n".join(result)
