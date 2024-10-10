@@ -8,7 +8,6 @@ class TestMafiaManager(unittest.TestCase):
         self.manager = MafiaManager()
 
     def test_append_player(self):
-        # Проверим, что добавление игрока работает корректно
         self.manager.append_player(user_id=1, name="Player1")
         self.assertEqual(len(self.manager._players), 1)
         self.assertEqual(self.manager._players[0].name, "Player1")
