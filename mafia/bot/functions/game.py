@@ -42,8 +42,8 @@ class MafiaManager:
         for player in self._players:
             if player.user_id == user_id and player.is_alive:
                 player.is_alive = False
-                return self.data["player_killed"].format(user_id=user_id)
-        return self.data["and_so_dead"].format(user_id=user_id)
+                return self.data["player_killed"].format(name=player.name)
+            return self.data["and_so_dead"].format(name=player.name)
 
     def revive_player(self, user_id: int) -> str:
         for player in self._players:
