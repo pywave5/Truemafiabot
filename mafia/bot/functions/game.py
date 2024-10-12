@@ -85,8 +85,14 @@ class MafiaManager:
                 max_count=random_role_data["max_count"],
             )
 
-    def get_all_players(self) -> str:
+    def format_players_list(self) -> str:
         result = []
         for idx, player in enumerate(self._players, start=1):
             result.append(f"{idx}. {player.name}")
         return "\n".join(result)
+
+    def get_players(self) -> list:
+        return self._players
+
+    def player_in_game(self, user_id: int) -> bool:
+        return any(player.user_id == user_id for player in self._players)
