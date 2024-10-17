@@ -7,9 +7,11 @@ from aiogram.fsm.context import FSMContext
 from mafia.bot.filters.current_chat import CurrentChat
 from mafia.bot.states.game_states import GameState
 from mafia.bot.functions.game import MafiaManager
+from mafia.bot.keyboards.game import KeyboardsControl
 
 user = Router()
 mafia = MafiaManager()
+keyboards_control = KeyboardsControl()
 
 @user.message(CommandStart())
 async def cmd_start(message: Message, state: FSMContext) -> None:
@@ -18,24 +20,13 @@ async def cmd_start(message: Message, state: FSMContext) -> None:
 
 @user.message(CurrentChat(), Command("game"))
 async def cmd_game(message: Message, state: FSMContext) -> None:
-    mafia.append_player(message.from_user.id, message.from_user.first_name)
-    mafia.append_player(1, "player_1")
-    mafia.append_player(2, "player_2")
-    mafia.append_player(3, "player_3")
-
-    await message.answer(f"{mafia.start_game()}",
-                         parse_mode=ParseMode.HTML)
-
-    await message.answer(f"{mafia.format_players_list()}")
-
-    user_role = mafia.get_player_role(message.from_user.id)
-    await message.bot.send_message(
-        chat_id=message.from_user.id,
-        text=f"Ваша роль - <b>{user_role['role']}</b>\n"
-             f"<blockquote>{user_role['info']}</blockquote>",
-        parse_mode=ParseMode.HTML
-    )
-    await state.set_state(GameState.game_started)
+    await state.set_state(GameState.vote_to_game)
+    await message.reply(text=mafia.data["vote_to_game"],
+                        reply_markup=await keyboards_control.create_inline_keyboard(
+                            text=mafia.data["game_join"],
+                            callback_data=None,
+                            url="https://google.com"
+                        ))
 
 @user.message(CurrentChat(), Command("quit"))
 async def cmd_quit(message: Message, state: FSMContext) -> None:
