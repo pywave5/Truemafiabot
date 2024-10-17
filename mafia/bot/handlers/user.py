@@ -1,7 +1,6 @@
 from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.filters.command import CommandStart, Command
-from aiogram.enums.parse_mode import ParseMode
 from aiogram.fsm.context import FSMContext
 
 from mafia.bot.filters.current_chat import CurrentChat
