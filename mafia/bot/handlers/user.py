@@ -14,8 +14,14 @@ keyboards_control = KeyboardsControl()
 
 @user.message(CommandStart())
 async def cmd_start(message: Message, state: FSMContext) -> None:
-    await message.answer(f"Привет! я бот-ведущий игры Мафия!")
-    await state.clear()
+    args = message.text.split(" ", 1)
+
+    if len(args) > 1 and args[1] == "game_join":
+        mafia.append_player(message.from_user.id, message.from_user.first_name)
+        await message.reply(f"Ты успешно присоединился к игре в ")
+    else:
+        await message.answer(f"Привет! я бот-ведущий игры Мафия!")
+        await state.clear()
 
 @user.message(CurrentChat(), Command("game"))
 async def cmd_game(message: Message, state: FSMContext) -> None:
@@ -24,7 +30,7 @@ async def cmd_game(message: Message, state: FSMContext) -> None:
                         reply_markup=await keyboards_control.create_inline_keyboard(
                             text=mafia.data["game_join"],
                             callback_data=None,
-                            url="https://google.com"
+                            url="https://t.me/rtmtrtortrbot?start=game_join"
                         ))
 
 @user.message(CurrentChat(), Command("quit"))
