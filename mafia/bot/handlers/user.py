@@ -1,6 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.filters.command import CommandStart, Command
+from aiogram.utils.deep_linking import create_start_link
 from aiogram.fsm.context import FSMContext
 
 from mafia.bot.filters.current_chat import CurrentChat
@@ -12,19 +13,15 @@ user = Router()
 mafia = MafiaManager()
 keyboards_control = KeyboardsControl()
 
-@user.message(CommandStart())
-async def cmd_start(message: Message, state: FSMContext) -> None:
-    args = message.text.split(" ", 1)
-
-    if len(args) > 1 and args[1] == "game_join":
-        mafia.append_player(message.from_user.id, message.from_user.first_name)
-        await message.reply(f"Ты успешно присоединился к игре в ")
-    else:
-        await message.answer(f"Привет! я бот-ведущий игры Мафия!")
-        await state.clear()
+@user.message(CommandStart(deep_link=True))
+async def cmd_start(message: Message, state: FSMContext, bot) -> None:
+    link = await create_start_link(bot, "game_join", encode=True)
+    print(link) # https://t.me/rtmtrtortrbot?start=Z2FtZV9qb2lu
+    await message.answer(f"Привет! я бот-ведущий игры Мафия!")
+    await state.clear()
 
 @user.message(CurrentChat(), Command("game"))
-async def cmd_game(message: Message, state: FSMContext) -> None:
+async def cmd_game(message: Message, state: FSMContext, bot) -> None:
     await state.set_state(GameState.vote_to_game)
     await message.reply(text=mafia.data["vote_to_game"],
                         reply_markup=await keyboards_control.create_inline_keyboard(
