@@ -1,7 +1,10 @@
+import asyncio
+
+import aiogram.utils.deep_linking
 from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.filters.command import CommandStart, Command, CommandObject
-from aiogram.utils.deep_linking import create_start_link, decode_payload
+from aiogram.utils.deep_linking import create_start_link, decode_payload, create_telegram_link
 from aiogram.utils.text_decorations import html_decoration
 from aiogram.fsm.context import FSMContext
 
@@ -39,12 +42,27 @@ async def cmd_game(message: Message, state: FSMContext, bot) -> None:
     chat_name = message.chat.title
     invite_link = await message.bot.create_chat_invite_link(chat_id=message.chat.id)
     link = await create_start_link(bot, f"{chat_name}?{invite_link.invite_link}", encode=True)
-    await message.reply(text=mafia.data["vote_to_game"],
+    sent_message = await message.reply(text=mafia.data["vote_to_game"],
                         reply_markup=await keyboards_control.create_inline_keyboard(
                             text=mafia.data["game_join"],
                             callback_data=None,
                             url=link
                         ))
+
+    await asyncio.sleep(10)
+    player_name_link = create_telegram_link(message.from_user.first_name)
+    player_name = mafia.get_player_name(message.from_user.id)
+    await message.bot.edit_message_text(chat_id=message.chat.id,
+                                        text=f"<b>Игроки:</b>\n\n"
+                                             f"{html_decoration.link(player_name, player_name_link)}",
+                                        message_id=sent_message.message_id,
+                                        reply_markup=await keyboards_control.create_inline_keyboard(
+                                            text=mafia.data["game_join"],
+                                            callback_data=None,
+                                            url=link
+                                            ),
+                                        disable_web_page_preview=True
+                                        )
 
 @user.message(CurrentChat(), Command("quit"))
 async def cmd_quit(message: Message, state: FSMContext) -> None:

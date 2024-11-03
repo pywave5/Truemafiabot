@@ -96,3 +96,8 @@ class MafiaManager:
 
     def player_in_game(self, user_id: int) -> bool:
         return any(player.user_id == user_id for player in self._players)
+
+    def get_player_name(self, user_id: int) -> str:
+        for player in self._players:
+            if player.user_id == user_id:
+                return player.name
