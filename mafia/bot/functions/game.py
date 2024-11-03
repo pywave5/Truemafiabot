@@ -33,24 +33,10 @@ class MafiaManager:
         self._players.clear()
 
     def append_player(self, user_id: int, name: str) -> None:
-        self._players.append(Player(user_id=user_id, name=name))
+        self._players.append(Player(id=user_id, name=name))
 
     def remove_player(self, user_id: int) -> None:
         self._players = [p for p in self._players if p.user_id != user_id]
-
-    def kill_player(self, user_id: int) -> str:
-        for player in self._players:
-            if player.user_id == user_id and player.is_alive:
-                player.is_alive = False
-                return self.data["player_killed"].format(name=player.name)
-            return self.data["and_so_dead"].format(name=player.name)
-
-    def revive_player(self, user_id: int) -> str:
-        for player in self._players:
-            if player.user_id == user_id and not player.is_alive:
-                player.is_alive = True
-                return self.data["player_revived"].format(user_id=user_id)
-        return self.data["and_so_alive"].format(user_id=user_id)
 
     def get_gametime(self) -> str:
         return self.data["game_time"].format(time=self._time)
@@ -58,14 +44,6 @@ class MafiaManager:
     def set_time(self) -> str:
         self._time = "День" if self._time == "Ночь" else "Ночь"
         return self.data["set_time"].format(time=self._time)
-
-    def get_player_role(self, user_id: int) -> dict:
-        for player in self._players:
-            if player.user_id == user_id:
-                return {
-                    "role": player.role.name,
-                    "info": player.role.info
-                }
 
     def __set_user_roles(self) -> None:
         role_data = list(self.roles.values())
@@ -95,4 +73,4 @@ class MafiaManager:
         return self._players
 
     def player_in_game(self, user_id: int) -> bool:
-        return any(player.user_id == user_id for player in self._players)
+        return any(player.id == user_id for player in self._players)

@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 class KeyboardsControl:
-    @classmethod
+
     async def create_inline_keyboard(cls,
                                      text: str,
                                      callback_data: str | None,
