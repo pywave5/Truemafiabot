@@ -38,12 +38,34 @@ class MafiaManager:
     def remove_player(self, user_id: int) -> None:
         self._players = [p for p in self._players if p.user_id != user_id]
 
+    def kill_player(self, user_id: int) -> str:
+        for player in self._players:
+            if player.id == user_id and player.is_alive:
+                player.is_alive = False
+                return self.data["player_killed"].format(name=player.name)
+            return self.data["and_so_dead"].format(name=player.name)
+
+    def revive_player(self, user_id: int) -> str:
+        for player in self._players:
+            if player.id == user_id and not player.is_alive:
+                player.is_alive = True
+                return self.data["player_revived"].format(user_id=user_id)
+        return self.data["and_so_alive"].format(user_id=user_id)
+
     def get_gametime(self) -> str:
         return self.data["game_time"].format(time=self._time)
 
     def set_time(self) -> str:
         self._time = "День" if self._time == "Ночь" else "Ночь"
         return self.data["set_time"].format(time=self._time)
+
+    def get_player_role(self, user_id: int) -> dict:
+        for player in self._players:
+            if player.id == user_id:
+                return {
+                    "role": player.role.name,
+                    "info": player.role.info
+                }
 
     def __set_user_roles(self) -> None:
         role_data = list(self.roles.values())
